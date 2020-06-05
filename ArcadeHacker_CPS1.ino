@@ -204,11 +204,11 @@ int read_LCD_buttons()
   if (5 < abs(k)) return btnNONE;
 
   if (adc_key_in > 1000) return btnNONE;
-  if (adc_key_in < 50)   return btnRIGHT;
-  if (adc_key_in < 195)  return btnUP;
-  if (adc_key_in < 380)  return btnDOWN;
-  if (adc_key_in < 555)  return btnLEFT;
-  if (adc_key_in < 790)  return btnSELECT;
+  if (adc_key_in < 72)   return btnRIGHT;
+  if (adc_key_in < 237)  return btnUP;
+  if (adc_key_in < 417)  return btnDOWN;
+  if (adc_key_in < 624)  return btnLEFT;
+  if (adc_key_in < 883)  return btnSELECT;
   return btnNONE;
 }
 

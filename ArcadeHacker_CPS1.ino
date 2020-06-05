@@ -95,6 +95,22 @@ void setup()
   lcd.print(" --press down-- ");
 }
 
+int read_LCD_buttons()
+{
+  adc_key_in = analogRead(0);
+  delay(5);
+  int k = (analogRead(0) - adc_key_in);
+  if (5 < abs(k)) return btnNONE;
+
+  if (adc_key_in > 1000) return btnNONE;
+  if (adc_key_in < 72)   return btnRIGHT;
+  if (adc_key_in < 237)  return btnUP;
+  if (adc_key_in < 417)  return btnDOWN;
+  if (adc_key_in < 624)  return btnLEFT;
+  if (adc_key_in < 883)  return btnSELECT;
+  return btnNONE;
+}
+
 void PIN42CLK()
 {
   digitalWrite(PIN42, HIGH); delay(time);
@@ -186,29 +202,13 @@ void ProgramCPS1(int prg)
   //pinMode(PIN42, INPUT); pinMode(PIN44, INPUT);
   //pinMode(PIN61, INPUT); pinMode(PIN62, INPUT);
 
-  while (analogRead (0) != 638)
+  while (read_LCD_buttons() != btnSELECT)
   {
     lcd.setCursor(0,0);
     lcd.print("--disconnect and ");
     lcd.setCursor(0,1);
     lcd.print("insert pcb--");
   }
-}
-
-int read_LCD_buttons()
-{
-  adc_key_in = analogRead(0);
-  delay(5);
-  int k = (analogRead(0) - adc_key_in);
-  if (5 < abs(k)) return btnNONE;
-
-  if (adc_key_in > 1000) return btnNONE;
-  if (adc_key_in < 72)   return btnRIGHT;
-  if (adc_key_in < 237)  return btnUP;
-  if (adc_key_in < 417)  return btnDOWN;
-  if (adc_key_in < 624)  return btnLEFT;
-  if (adc_key_in < 883)  return btnSELECT;
-  return btnNONE;
 }
 
 void loop()   /*----( LOOP: RUNS CONSTANTLY )----*/

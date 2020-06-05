@@ -56,8 +56,8 @@ unsigned char bytes[][18] = {
 
 };
 
-char* GameList[] = 
-  { 
+char* GameList[] =
+  {
   "Cadillacs & Din.",
   "Capcom World 2  ",
   "Captain Commando",
@@ -72,18 +72,18 @@ char* GameList[] =
   "Varth (Japan)   ",
   "Warriors of Fate"
   };
-  
-unsigned char mask = 1; // Bit 
+
+unsigned char mask = 1; // Bit
 unsigned char bits[8];
 int c = -1;
 
 void setup() {
-  
+
 
   pinMode(PIN42, OUTPUT); pinMode(PIN44, OUTPUT);
-  pinMode(PIN61, OUTPUT); pinMode(PIN62, OUTPUT); 
+  pinMode(PIN61, OUTPUT); pinMode(PIN62, OUTPUT);
 
- 
+
    digitalWrite(PIN42, LOW);
    digitalWrite(PIN44, LOW);
 
@@ -97,7 +97,7 @@ void setup() {
   lcd.print("Select a game:  ");
   lcd.setCursor(0,1);
   lcd.print(" --press down-- ");
-  
+
 }
 
 void PIN42CLK()
@@ -121,8 +121,8 @@ void program_unlock()
     PIN42CLK();
     PIN42CLK();
     PIN42CLK();
-    PIN42CLK();  
- 
+    PIN42CLK();
+
     digitalWrite(PIN62, HIGH);
     PIN61CLK();
     digitalWrite(PIN62, LOW);
@@ -134,7 +134,7 @@ void program_unlock()
     digitalWrite(PIN62, HIGH);
     PIN61CLK();
     PIN61CLK();
-    
+
     PIN61CLK();
     PIN61CLK();
     PIN61CLK();
@@ -147,9 +147,9 @@ void program_unlock()
     PIN61CLK();
     PIN61CLK();
     PIN61CLK();
-    
-   
-} 
+
+
+}
 
 void ProgramCPS1(int prg)
                 {
@@ -157,60 +157,60 @@ void ProgramCPS1(int prg)
                 int test;
   lcd.clear();
   lcd.setCursor(0,1);
-  lcd.print("Unlocking...    ");                  
+  lcd.print("Unlocking...    ");
 
-               
-                program_unlock();      
-                
 
-   lcd.setCursor(0,0);   
+                program_unlock();
+
+
+   lcd.setCursor(0,0);
    lcd.print("Programming     ");
    lcd.setCursor(0,1);
-   lcd.print("CPS1...         ");    
+   lcd.print("CPS1...         ");
 
-                               
-                for(i=0; i<18; i++)        
-                  {      
-                    for (int b = 7; b > -1; b--) {  
-               
+
+                for(i=0; i<18; i++)
+                  {
+                    for (int b = 7; b > -1; b--) {
+
                      bits[b] = (bytes[prg][i] & (mask << b)) != 0;
                      printf("%d",bits[b]);
-       
+
                      if (bits[b] == 1) {
                       digitalWrite(PIN62, HIGH);}
-                      else { 
-                      digitalWrite(PIN62, LOW);}                  
-                      PIN61CLK();  
+                      else {
+                      digitalWrite(PIN62, LOW);}
+                      PIN61CLK();
                      }
                   }
-                  
+
  lcd.clear();
  lcd.setCursor(0,1);
- lcd.print("Done!           ");                   
- delay(1000);       
+ lcd.print("Done!           ");
+ delay(1000);
 
 //pinMode(PIN42, INPUT); pinMode(PIN44, INPUT);
-//pinMode(PIN61, INPUT); pinMode(PIN62, INPUT); 
+//pinMode(PIN61, INPUT); pinMode(PIN62, INPUT);
 
-while (analogRead (0) != 638) { 
+while (analogRead (0) != 638) {
                  lcd.setCursor(0,0); lcd.print("--disconnect and ");   lcd.setCursor(0,1); lcd.print("insert pcb--");  }
                 }
 
 int read_LCD_buttons()
 {
-  adc_key_in = analogRead(0);   
+  adc_key_in = analogRead(0);
   delay(5);
-  int k = (analogRead(0) - adc_key_in); 
-  if (5 < abs(k)) return btnNONE;  
+  int k = (analogRead(0) - adc_key_in);
+  if (5 < abs(k)) return btnNONE;
 
-  if (adc_key_in > 1000) return btnNONE; 
-  if (adc_key_in < 50)   return btnRIGHT;  
-  if (adc_key_in < 195)  return btnUP; 
-  if (adc_key_in < 380)  return btnDOWN; 
-  if (adc_key_in < 555)  return btnLEFT; 
-  if (adc_key_in < 790)  return btnSELECT;   
-  return btnNONE;  
-}                
+  if (adc_key_in > 1000) return btnNONE;
+  if (adc_key_in < 50)   return btnRIGHT;
+  if (adc_key_in < 195)  return btnUP;
+  if (adc_key_in < 380)  return btnDOWN;
+  if (adc_key_in < 555)  return btnLEFT;
+  if (adc_key_in < 790)  return btnSELECT;
+  return btnNONE;
+}
 
 void loop()   /*----( LOOP: RUNS CONSTANTLY )----*/
 {
@@ -222,7 +222,7 @@ void loop()   /*----( LOOP: RUNS CONSTANTLY )----*/
   {
 
     lcd.setCursor(0,1);            // move to the begining of the second line
-  
+
     switch (lcd_key)               // depending on which button was pushed, we perform an action
     {
     case btnRIGHT:
@@ -239,7 +239,7 @@ void loop()   /*----( LOOP: RUNS CONSTANTLY )----*/
         {
           if (c > 0) {c--;} else {c++;}
         }
-      
+
        lcd.print(GameList[c]);
        break;
       }
@@ -251,9 +251,9 @@ void loop()   /*----( LOOP: RUNS CONSTANTLY )----*/
       }
     case btnSELECT:
       {
-       if (c != -1) 
+       if (c != -1)
          {
-           ProgramCPS1(c);                
+           ProgramCPS1(c);
            lcd.setCursor(0,0);
            lcd.print("Select a game:  ");
            lcd.setCursor(0,1);

@@ -39,7 +39,6 @@ int adc_key_prev  = 0;
 int time = 25;
 
 unsigned char bytes[][18] = {
-
 { 0x03, 0xF3, 0xFF, 0x17, 0xC3, 0x3E, 0x0F, 0x9C, 0x00, 0x00, 0x7C, 0xC0, 0x00, 0x1F, 0x00, 0x28, 0x01, 0x00 }, //Cadillacs & Dinosaurs CPS_B_21_QS2
 { 0x00, 0x08, 0x00, 0xC0, 0x00, 0x80, 0x00, 0x58, 0x00, 0x00, 0x02, 0xE0, 0x00, 0x00, 0x00, 0x80, 0x01, 0x40 }, //Capcom World 2 CPS_B_21_BT6
 { 0x00, 0x70, 0x02, 0xC0, 0x69, 0x01, 0x50, 0x58, 0x00, 0x00, 0x02, 0xE0, 0x00, 0x00, 0x00, 0x80, 0x01, 0x40 }, //Captain Comando CPS_B_21_BT3
@@ -53,7 +52,6 @@ unsigned char bytes[][18] = {
 { 0x00, 0xEB, 0x26, 0xC1, 0x60, 0xC9, 0x11, 0xC8, 0x00, 0x00, 0x0A, 0x60, 0x00, 0x00, 0x00, 0xA0, 0x01, 0x42 }, //Three Wonders CPS_B_21_BT1
 { 0x00, 0xEB, 0x26, 0xC1, 0x68, 0x49, 0x50, 0x58, 0x00, 0x00, 0x02, 0xE0, 0x00, 0x00, 0x00, 0x80, 0x01, 0x40 }, //Varth (Japan) CPS_B_21_BT5
 { 0x00, 0x0C, 0x00, 0xB0, 0x2A, 0x81, 0x40, 0x4C, 0x00, 0x00, 0x02, 0x40, 0x00, 0x00, 0x00, 0x88, 0x01, 0x00 }  //Warriors of Fate CPS_B_21_QS1
-
 };
 
 char* GameList[] =
@@ -77,15 +75,13 @@ unsigned char mask = 1; // Bit
 unsigned char bits[8];
 int c = -1;
 
-void setup() {
-
-
+void setup()
+{
   pinMode(PIN42, OUTPUT); pinMode(PIN44, OUTPUT);
   pinMode(PIN61, OUTPUT); pinMode(PIN62, OUTPUT);
 
-
-   digitalWrite(PIN42, LOW);
-   digitalWrite(PIN44, LOW);
+  digitalWrite(PIN42, LOW);
+  digitalWrite(PIN44, LOW);
 
   lcd.begin(16, 2);
   lcd.setCursor(0,0);
@@ -97,104 +93,108 @@ void setup() {
   lcd.print("Select a game:  ");
   lcd.setCursor(0,1);
   lcd.print(" --press down-- ");
-
 }
 
 void PIN42CLK()
 {
-    digitalWrite(PIN42, HIGH); delay(time);
-    digitalWrite(PIN42, LOW); delay(time);
+  digitalWrite(PIN42, HIGH); delay(time);
+  digitalWrite(PIN42, LOW); delay(time);
 }
 
 void PIN61CLK()
 {
-    digitalWrite(PIN61, HIGH); delay(time);
-    digitalWrite(PIN61, LOW); delay(time);
+  digitalWrite(PIN61, HIGH); delay(time);
+  digitalWrite(PIN61, LOW); delay(time);
 }
 
 void program_unlock()
 {
-    digitalWrite(PIN44, HIGH);
-    delay(time);
-    delay(time);
-    delay(time);
-    PIN42CLK();
-    PIN42CLK();
-    PIN42CLK();
-    PIN42CLK();
+  digitalWrite(PIN44, HIGH);
+  delay(time);
+  delay(time);
+  delay(time);
+  PIN42CLK();
+  PIN42CLK();
+  PIN42CLK();
+  PIN42CLK();
 
-    digitalWrite(PIN62, HIGH);
-    PIN61CLK();
-    digitalWrite(PIN62, LOW);
-    PIN61CLK();
-    digitalWrite(PIN62, HIGH);
-    PIN61CLK();
-    digitalWrite(PIN62, LOW);
-    PIN61CLK();
-    digitalWrite(PIN62, HIGH);
-    PIN61CLK();
-    PIN61CLK();
+  digitalWrite(PIN62, HIGH);
+  PIN61CLK();
+  digitalWrite(PIN62, LOW);
+  PIN61CLK();
+  digitalWrite(PIN62, HIGH);
+  PIN61CLK();
+  digitalWrite(PIN62, LOW);
+  PIN61CLK();
+  digitalWrite(PIN62, HIGH);
+  PIN61CLK();
+  PIN61CLK();
 
-    PIN61CLK();
-    PIN61CLK();
-    PIN61CLK();
-    PIN61CLK();
-    PIN61CLK();
-    PIN61CLK();
-    PIN61CLK();
-    PIN61CLK();
-    PIN61CLK();
-    PIN61CLK();
-    PIN61CLK();
-    PIN61CLK();
-
-
+  PIN61CLK();
+  PIN61CLK();
+  PIN61CLK();
+  PIN61CLK();
+  PIN61CLK();
+  PIN61CLK();
+  PIN61CLK();
+  PIN61CLK();
+  PIN61CLK();
+  PIN61CLK();
+  PIN61CLK();
+  PIN61CLK();
 }
 
 void ProgramCPS1(int prg)
-                {
-                int i;
-                int test;
+{
+  int i;
+  int test;
   lcd.clear();
   lcd.setCursor(0,1);
   lcd.print("Unlocking...    ");
 
+  program_unlock();
 
-                program_unlock();
-
-
-   lcd.setCursor(0,0);
-   lcd.print("Programming     ");
-   lcd.setCursor(0,1);
-   lcd.print("CPS1...         ");
+  lcd.setCursor(0,0);
+  lcd.print("Programming     ");
+  lcd.setCursor(0,1);
+  lcd.print("CPS1...         ");
 
 
-                for(i=0; i<18; i++)
-                  {
-                    for (int b = 7; b > -1; b--) {
+  for(i=0; i<18; i++)
+  {
+    for (int b = 7; b > -1; b--)
+    {
+      bits[b] = (bytes[prg][i] & (mask << b)) != 0;
+      printf("%d",bits[b]);
 
-                     bits[b] = (bytes[prg][i] & (mask << b)) != 0;
-                     printf("%d",bits[b]);
+      if (bits[b] == 1)
+      {
+        digitalWrite(PIN62, HIGH);
+      }
+      else
+      {
+        digitalWrite(PIN62, LOW);
+      }
+      PIN61CLK();
+    }
+  }
 
-                     if (bits[b] == 1) {
-                      digitalWrite(PIN62, HIGH);}
-                      else {
-                      digitalWrite(PIN62, LOW);}
-                      PIN61CLK();
-                     }
-                  }
+  lcd.clear();
+  lcd.setCursor(0,1);
+  lcd.print("Done!           ");
+  delay(1000);
 
- lcd.clear();
- lcd.setCursor(0,1);
- lcd.print("Done!           ");
- delay(1000);
+  //pinMode(PIN42, INPUT); pinMode(PIN44, INPUT);
+  //pinMode(PIN61, INPUT); pinMode(PIN62, INPUT);
 
-//pinMode(PIN42, INPUT); pinMode(PIN44, INPUT);
-//pinMode(PIN61, INPUT); pinMode(PIN62, INPUT);
-
-while (analogRead (0) != 638) {
-                 lcd.setCursor(0,0); lcd.print("--disconnect and ");   lcd.setCursor(0,1); lcd.print("insert pcb--");  }
-                }
+  while (analogRead (0) != 638)
+  {
+    lcd.setCursor(0,0);
+    lcd.print("--disconnect and ");
+    lcd.setCursor(0,1);
+    lcd.print("insert pcb--");
+  }
+}
 
 int read_LCD_buttons()
 {
@@ -214,13 +214,11 @@ int read_LCD_buttons()
 
 void loop()   /*----( LOOP: RUNS CONSTANTLY )----*/
 {
-
   adc_key_prev = lcd_key ;       // Looking for changes
   lcd_key = read_LCD_buttons();  // read the buttons
 
   if (adc_key_prev != lcd_key)
   {
-
     lcd.setCursor(0,1);            // move to the begining of the second line
 
     switch (lcd_key)               // depending on which button was pushed, we perform an action
@@ -235,30 +233,30 @@ void loop()   /*----( LOOP: RUNS CONSTANTLY )----*/
       }
     case btnUP:
       {
-       if (c !=0)
+        if (c !=0)
         {
-          if (c > 0) {c--;} else {c++;}
+          if (c > 0) c--; else c++;
         }
 
-       lcd.print(GameList[c]);
-       break;
+        lcd.print(GameList[c]);
+        break;
       }
     case btnDOWN:
       {
-     if (c != sizeof(GameList)/sizeof(GameList[0])-1) {c++;}
-     lcd.print(GameList[c]);
+        if (c != sizeof(GameList)/sizeof(GameList[0])-1) c++;
+        lcd.print(GameList[c]);
         break;
       }
     case btnSELECT:
       {
-       if (c != -1)
-         {
-           ProgramCPS1(c);
-           lcd.setCursor(0,0);
-           lcd.print("Select a game:  ");
-           lcd.setCursor(0,1);
-           lcd.print(GameList[c]);
-         }
+        if (c != -1)
+        {
+          ProgramCPS1(c);
+          lcd.setCursor(0,0);
+          lcd.print("Select a game:  ");
+          lcd.setCursor(0,1);
+          lcd.print(GameList[c]);
+        }
         break;
       }
     case btnNONE:
@@ -268,7 +266,3 @@ void loop()   /*----( LOOP: RUNS CONSTANTLY )----*/
     }
   }
 }
-
-
-
-

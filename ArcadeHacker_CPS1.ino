@@ -73,7 +73,7 @@ char const* GameList[] =
 
 unsigned char mask = 1; // Bit
 unsigned char bits[8];
-int c = -1;
+int current_game = -1;
 
 void setup()
 {
@@ -223,29 +223,35 @@ void loop()   /*----( LOOP: RUNS CONSTANTLY )----*/
     {
     case btnUP:
       {
-        if (c !=0)
+        current_game--;
+        if (current_game < 0)
         {
-          if (c > 0) c--; else c++;
+          current_game = 0;
         }
 
-        lcd.print(GameList[c]);
+        lcd.print(GameList[current_game]);
         break;
       }
     case btnDOWN:
       {
-        if (c != sizeof(GameList)/sizeof(GameList[0])-1) c++;
-        lcd.print(GameList[c]);
+        current_game++;
+	int max = sizeof(GameList) / sizeof(GameList[0]);
+        if (current_game > max - 1)
+        {
+          current_game = max - 1;
+        }
+        lcd.print(GameList[current_game]);
         break;
       }
     case btnSELECT:
       {
-        if (c != -1)
+        if (current_game != -1)
         {
-          ProgramCPS1(c);
+          ProgramCPS1(current_game);
           lcd.setCursor(0,0);
           lcd.print("Select a game:  ");
           lcd.setCursor(0,1);
-          lcd.print(GameList[c]);
+          lcd.print(GameList[current_game]);
         }
         break;
       }

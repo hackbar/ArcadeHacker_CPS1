@@ -223,14 +223,6 @@ void loop()   /*----( LOOP: RUNS CONSTANTLY )----*/
 
     switch (lcd_key)               // depending on which button was pushed, we perform an action
     {
-    case btnRIGHT:
-      {
-        break;
-      }
-    case btnLEFT:
-      {
-        break;
-      }
     case btnUP:
       {
         if (c !=0)
@@ -257,10 +249,6 @@ void loop()   /*----( LOOP: RUNS CONSTANTLY )----*/
           lcd.setCursor(0,1);
           lcd.print(GameList[c]);
         }
-        break;
-      }
-    case btnNONE:
-      {
         break;
       }
     }

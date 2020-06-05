@@ -54,7 +54,7 @@ unsigned char bytes[][18] = {
 { 0x00, 0x0C, 0x00, 0xB0, 0x2A, 0x81, 0x40, 0x4C, 0x00, 0x00, 0x02, 0x40, 0x00, 0x00, 0x00, 0x88, 0x01, 0x00 }  //Warriors of Fate CPS_B_21_QS1
 };
 
-char* GameList[] =
+char const* GameList[] =
   {
   "Cadillacs & Din.",
   "Capcom World 2  ",
@@ -147,7 +147,6 @@ void program_unlock()
 void ProgramCPS1(int prg)
 {
   int i;
-  int test;
   lcd.clear();
   lcd.setCursor(0,1);
   lcd.print("Unlocking...    ");

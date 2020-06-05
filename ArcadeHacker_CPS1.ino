@@ -180,7 +180,6 @@ void ProgramCPS1(int prg)
     for (int b = 7; b > -1; b--)
     {
       bits[b] = (bytes[prg][i] & (mask << b)) != 0;
-      printf("%d",bits[b]);
 
       if (bits[b] == 1)
       {
